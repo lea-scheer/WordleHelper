@@ -1,4 +1,4 @@
-# 🟩 Wordle Helper
+# Wordle Helper
 
 A desktop application built with **Qt (QML + C++)** that helps filter possible 5-letter words based on Wordle-style constraints.
 
@@ -6,7 +6,7 @@ The application supports both **English and French dictionaries**, and allows dy
 
 ---
 
-## 🚀 Features
+## Features
 
 - Qt Quick (QML) user interface
 - C++ backend for fast word filtering
@@ -17,20 +17,20 @@ The application supports both **English and French dictionaries**, and allows dy
 
 ---
 
-## 🧠 How It Works
+## How It Works
 
 The application filters words according to Wordle rules:
 
-- ✅ **Correct letters**: must be at the exact position.
-- 🟨 **Good letters**: must exist in the word but not at that position.
-- ⬜ **Absent letters**: must not appear in the word.
-- 🔁 **Duplicate letters**: properly handled (minimum occurrences enforced).
+- **Correct letters**: must be at the exact position.
+- *Good letters**: must exist in the word but not at that position.
+- **Absent letters**: must not appear in the word.
+- **Duplicate letters**: properly handled (minimum occurrences enforced).
 
 The filtering logic is implemented in C++ inside the `WordFinder` class.
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 WordleHelper/\
 │\
@@ -59,7 +59,7 @@ WordleHelper/\
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ### 🔹 Frontend (QML)
 
@@ -84,7 +84,7 @@ WordleHelper/\
 
 ---
 
-## 🌍 Language Switching
+## Language Switching
 
 The language can be changed at runtime using a ComboBox.
 
@@ -95,7 +95,7 @@ When switching:
 
 ---
 
-## 🖥️ Requirements
+## Requirements
 
 - Qt 6 (Qt Quick + Qt Quick Controls 2)
 - C++17 or newer
@@ -103,7 +103,7 @@ When switching:
 
 ---
 
-## ▶️ How to Build & Run
+## How to Build & Run
 
 1. Open the project in **Qt Creator**
 2. Ensure dictionary files exist:
@@ -113,7 +113,7 @@ When switching:
 
 ---
 
-## 💡 Possible Improvements
+## Possible Improvements
 
 - Automatic filtering on text change
 - New entry possible to include more good letters misplaced
@@ -126,6 +126,6 @@ When switching:
 
 ---
 
-## 📜 License
+## License
 
 This project is for educational purposes.
