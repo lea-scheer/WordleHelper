@@ -1,0 +1,160 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-751456e2adc8394582c3.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "WordleHelper",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "all_qmllint::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-all_qmllint-Debug-2d8ce35785742325700a.json",
+					"name" : "all_qmllint",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "all_qmllint_json::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-all_qmllint_json-Debug-a8d90540e8557c9ede90.json",
+					"name" : "all_qmllint_json",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "all_qmltyperegistrations::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-all_qmltyperegistrations-Debug-77ce129f2e07b92c9121.json",
+					"name" : "all_qmltyperegistrations",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appWordleHelper::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appWordleHelper-Debug-bc090ded8390b049c2c0.json",
+					"name" : "appWordleHelper",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appWordleHelper_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appWordleHelper_autogen-Debug-d8cd60268b326913f498.json",
+					"name" : "appWordleHelper_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appWordleHelper_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appWordleHelper_autogen_timestamp_deps-Debug-3fcfc29424523e7cf0fa.json",
+					"name" : "appWordleHelper_autogen_timestamp_deps",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appWordleHelper_other_files::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appWordleHelper_other_files-Debug-e1e8496b8bcc68b04f6e.json",
+					"name" : "appWordleHelper_other_files",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appWordleHelper_qmlimportscan::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appWordleHelper_qmlimportscan-Debug-9d4943ede4d5e3f46ae4.json",
+					"name" : "appWordleHelper_qmlimportscan",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appWordleHelper_qmllint::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appWordleHelper_qmllint-Debug-29828917aa7403fdfa2d.json",
+					"name" : "appWordleHelper_qmllint",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appWordleHelper_qmllint_json::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appWordleHelper_qmllint_json-Debug-2a35910c238080b2534d.json",
+					"name" : "appWordleHelper_qmllint_json",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appWordleHelper_qmltyperegistration::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appWordleHelper_qmltyperegistration-Debug-9762974a28201aef6004.json",
+					"name" : "appWordleHelper_qmltyperegistration",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appWordleHelper_tooling::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appWordleHelper_tooling-Debug-435203957a9e82766a1c.json",
+					"name" : "appWordleHelper_tooling",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/andrea/SoftPerso/Lea/MyQMLexercice/WordleHelper/build/Desktop_Qt_6_4_2-Debug",
+		"source" : "/home/andrea/SoftPerso/Lea/MyQMLexercice/WordleHelper"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}

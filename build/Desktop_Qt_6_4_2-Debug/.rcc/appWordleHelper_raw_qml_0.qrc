@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/WordleHelper/">
+    <file alias="Main.qml">/home/andrea/SoftPerso/Lea/MyQMLexercice/WordleHelper/Main.qml</file>
+  </qresource>
+</RCC>
+

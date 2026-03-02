@@ -1,0 +1,2 @@
+/home/andrea/SoftPerso/Lea/MyQMLexercice/WordleHelper/build/Desktop_Qt_6_4_2-Debug/appWordleHelper_autogen/include/../EWIEGA46WW/moc_wordle_backend.cpp.json
+/home/andrea/SoftPerso/Lea/MyQMLexercice/WordleHelper/build/Desktop_Qt_6_4_2-Debug/appWordleHelper_autogen/include/../EWIEGA46WW/moc_wordle_finder.cpp.json

@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="images/france.png">/home/andrea/SoftPerso/Lea/MyQMLexercice/WordleHelper/images/france.png</file>
+    <file alias="images/united-kingdom.png">/home/andrea/SoftPerso/Lea/MyQMLexercice/WordleHelper/images/united-kingdom.png</file>
+    <file alias="mots.txt">/home/andrea/SoftPerso/Lea/MyQMLexercice/WordleHelper/mots.txt</file>
+    <file alias="words_list.txt">/home/andrea/SoftPerso/Lea/MyQMLexercice/WordleHelper/words_list.txt</file>
+  </qresource>
+</RCC>
+

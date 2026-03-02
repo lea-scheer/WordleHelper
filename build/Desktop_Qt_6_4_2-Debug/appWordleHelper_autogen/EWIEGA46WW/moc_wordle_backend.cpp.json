@@ -1,0 +1,78 @@
+{
+    "classes": [
+        {
+            "classInfos": [
+                {
+                    "name": "QML.Element",
+                    "value": "auto"
+                }
+            ],
+            "className": "WordleBackend",
+            "methods": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "correct",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "good",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "absent",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "updateConstraints",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "path",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "switchLanguage",
+                    "returnType": "void"
+                }
+            ],
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 0,
+                    "name": "possibleWords",
+                    "notify": "possibleWordsChanged",
+                    "read": "possibleWords",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QStringList",
+                    "user": false
+                }
+            ],
+            "qualifiedClassName": "WordleBackend",
+            "signals": [
+                {
+                    "access": "public",
+                    "name": "possibleWordsChanged",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "wordle_backend.h",
+    "outputRevision": 68
+}
