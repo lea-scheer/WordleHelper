@@ -8,6 +8,7 @@ build-*/
 *.qbs.user
 *.qmlc
 *.jsc
+*.qtcreator
 
 # CMake
 CMakeFiles/
