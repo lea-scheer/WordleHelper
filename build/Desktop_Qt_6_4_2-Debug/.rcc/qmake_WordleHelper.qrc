@@ -1,6 +1,0 @@
-<RCC>
-  <qresource prefix="/WordleHelper">
-    <file alias="qmldir">/home/andrea/SoftPerso/Lea/MyQMLexercice/WordleHelper/build/Desktop_Qt_6_4_2-Debug/WordleHelper/qmldir</file>
-  </qresource>
-</RCC>
-

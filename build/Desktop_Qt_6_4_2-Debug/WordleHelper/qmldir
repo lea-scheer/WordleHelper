@@ -1,5 +1,0 @@
-module WordleHelper
-typeinfo appWordleHelper.qmltypes
-prefer :/WordleHelper/
-Main 1.0 Main.qml
-
