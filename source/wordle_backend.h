@@ -1,7 +1,7 @@
 #ifndef WORDLE_BACKEND_H
 #define WORDLE_BACKEND_H
 
-#include "wordle_finder.h"
+#include "source/wordle_finder.h"
 
 #include <QObject>
 #include <QQmlEngine>

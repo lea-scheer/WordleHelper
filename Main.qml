@@ -8,8 +8,8 @@ ApplicationWindow {
     id: root
     width: 640
     height: 480
-    minimumWidth: rootLayout.implicitWidth + 40
-    minimumHeight: rootLayout.implicitHeight + 40
+    minimumWidth: rootLayout.implicitWidth + 250
+    minimumHeight: rootLayout.implicitHeight + 250
     visible: true
     title: qsTr("Wordle Helper")
 
@@ -24,7 +24,6 @@ ApplicationWindow {
 
     RowLayout {
         anchors.fill: parent
-        spacing: 20
 
         // -----------------
         // Main vertical content (centered)
@@ -33,22 +32,17 @@ ApplicationWindow {
         ColumnLayout {
             id: rootLayout
             spacing: 0
-
-            // Top spacer (pushes content to vertical center)
-            Item {
-                Layout.fillHeight: true
-            }
+            Layout.alignment: Qt.AlignTop
+            Layout.margins: 20
 
             // Main content container
             ColumnLayout {
-                spacing: 10
-                Layout.alignment: Qt.AlignHCenter
+                spacing: 15
                 Layout.preferredWidth: 300
 
                 // --- Correct row ---
                 RowLayout {
                     spacing: 5
-                    Layout.alignment: Qt.AlignHCenter
 
                     Label {
                         text: "Correct:"
@@ -83,7 +77,6 @@ ApplicationWindow {
                 // --- Good row ---
                 RowLayout {
                     spacing: 5
-                    Layout.alignment: Qt.AlignHCenter
 
                     Label {
                         text: "Good:"
@@ -118,7 +111,6 @@ ApplicationWindow {
                 // --- Absent row ---
                 RowLayout {
                     spacing: 5
-                    Layout.alignment: Qt.AlignHCenter
 
                     Label {
                         text: "Absent:"
@@ -132,10 +124,16 @@ ApplicationWindow {
                     }
                 }
 
-                // --- Button ---
+                // --- Filter button ---
                 Button {
+                    id: filterButton
                     text: "Filter"
-                    Layout.alignment: Qt.AlignHCenter
+                    background: Rectangle {
+                        radius: 4
+                        border.width: 2
+                        border.color: "#444"
+                        color: filterButton.down ? "#d0d0d0" : "#f0f0f0"
+                    }
 
                     onClicked: {
                         var correct = correctLetters.map(function(letter) {
@@ -155,8 +153,7 @@ ApplicationWindow {
                     id: wordView
 
                     Layout.preferredWidth: 350
-                    Layout.preferredHeight: 250
-                    Layout.alignment: Qt.AlignHCenter
+                    Layout.fillHeight: true
 
                     model: backend.possibleWords
 
@@ -176,10 +173,6 @@ ApplicationWindow {
                 }
             }
 
-            // Bottom spacer (balances top spacer)
-            Item {
-                Layout.fillHeight: true
-            }
         }
 
         // -----------------
@@ -235,11 +228,12 @@ ApplicationWindow {
                     if(currentIndex === 0) //english
                     {
                         root.language = "English"
-                        backend.switchLanguage("/home/andrea/SoftPerso/Lea/MyQMLexercice/WordleHelper/words_list.txt")
+                        backend.switchLanguage("/home/andrea/SoftPerso/Lea/MyQMLexercice/WordleHelper/dictionaries/words_list.txt")
                     } else {
                         root.language = "Français"
-                        backend.switchLanguage("/home/andrea/SoftPerso/Lea/MyQMLexercice/WordleHelper/mots.txt")
+                        backend.switchLanguage("/home/andrea/SoftPerso/Lea/MyQMLexercice/WordleHelper/dictionaries/mots.txt")
                     }
+                    filterButton.clicked()
                 }
             }
         }

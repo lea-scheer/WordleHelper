@@ -1,5 +1,5 @@
-#include "wordle_finder.h"
-#include "file_parser.h"
+#include "source/wordle_finder.h"
+#include "source/file_parser.h"
 #include <algorithm>
 #include <unordered_map>
 #include <unordered_set>

@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QQmlEngine>
-#include "file_parser.h"
+#include "source/file_parser.h"
 
 struct Constraints{
     std::string correct;

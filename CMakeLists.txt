@@ -17,8 +17,8 @@ qt_add_resources(appWordleHelper "app_wordlehelper"
     FILES
         images/france.png
         images/united-kingdom.png
-        mots.txt
-        words_list.txt
+        dictionaries/mots.txt
+        dictionaries/words_list.txt
 )
 
 qt_add_qml_module(appWordleHelper
@@ -27,24 +27,19 @@ qt_add_qml_module(appWordleHelper
     QML_FILES
         Main.qml
     SOURCES
-        wordle_backend.h
-        wordle_backend.cpp
-        wordle_finder.h
-        wordle_finder.cpp
-        file_parser.h
-        file_parser.cpp
+        source/wordle_backend.h
+        source/wordle_backend.cpp
+        source/wordle_finder.h
+        source/wordle_finder.cpp
+        source/file_parser.h
+        source/file_parser.cpp
 )
 
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
-set_target_properties(appWordleHelper PROPERTIES
-#    MACOSX_BUNDLE_GUI_IDENTIFIER com.example.appWordleHelper
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    MACOSX_BUNDLE TRUE
-    WIN32_EXECUTABLE TRUE
+target_include_directories(appWordleHelper
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/source
 )
+
 
 target_link_libraries(appWordleHelper
     PRIVATE Qt6::Quick

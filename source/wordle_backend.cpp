@@ -1,4 +1,4 @@
-#include "wordle_backend.h"
+#include "source/wordle_backend.h"
 
 WordleBackend::WordleBackend(QObject* parent)
     : QObject(parent)

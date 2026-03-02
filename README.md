@@ -32,19 +32,29 @@ The filtering logic is implemented in C++ inside the `WordFinder` class.
 
 ## 📁 Project Structure
 
-WordleHelper\
+WordleHelper/\
+│\
+├── CMakeLists.txt\
+├── main.cpp\
+├── Main.qml\
+│\
+├── source/\
+│   ├── wordle_backend.h\
+│   ├── wordle_backend.cpp\
+│   ├── wordle_finder.h\
+│   ├── wordle_finder.cpp\
+│   ├── file_parser.h\
+│   └── file_parser.cpp\
+│\
+├── dictionaries/\
+│   ├── words_list.txt (English dictionary)\
+│   └── mots.txt (French dictionary)\
 │\
 ├── images/\
+│   ├── france.png\
+│   └── united-kingdom.png\
 │\
-├── main.cpp\
-├── wordle_backend.h / .cpp\
-├── wordle_finder.h / .cpp\
-├── file_parser.h / .cpp\
-│\
-├── words_list.txt (English dictionary)\
-├── mots.txt (French dictionary)\
-│\
-└── Main.qml
+└── build
 
 
 ---
