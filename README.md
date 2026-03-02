@@ -22,7 +22,7 @@ The application supports both **English and French dictionaries**, and allows dy
 The application filters words according to Wordle rules:
 
 - **Correct letters**: must be at the exact position.
-- *Good letters**: must exist in the word but not at that position.
+- **Good letters**: must exist in the word but not at that position.
 - **Absent letters**: must not appear in the word.
 - **Duplicate letters**: properly handled (minimum occurrences enforced).
 
