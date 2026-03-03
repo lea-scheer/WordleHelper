@@ -5,13 +5,18 @@ WordleBackend::WordleBackend(QObject* parent)
 {}
 
 void WordleBackend::updateConstraints(const QString& correct,
-                                      const QString& good,
+                                      const QList<QString>& goodRows,
                                       const QString& absent)
 {
     Constraints c;
     c.correct = correct.toStdString();
-    c.good = good.toStdString();
     c.absent = absent.toStdString();
+
+    // Convert QList<QString> → vector<string>
+    for (const QString& row : goodRows)
+    {
+        c.goodRows.push_back(row.toStdString());
+    }
 
     auto result = m_finder.final_list(c);
 

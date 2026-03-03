@@ -16,7 +16,7 @@ public:
     explicit WordleBackend(QObject* parent = nullptr);
 
     Q_INVOKABLE void updateConstraints(const QString& correct,
-                                       const QString& good,
+                                       const QList<QString>& goodRows,
                                        const QString& absent);
 
     QStringList possibleWords() const;

@@ -3,11 +3,12 @@
 
 #include <QObject>
 #include <QQmlEngine>
+#include <vector>
 #include "source/file_parser.h"
 
 struct Constraints{
     std::string correct;
-    std::string good;
+    std::vector<std::string> goodRows;
     std::string absent;
 };
 

@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Basic
+import QtQml.Models
 import WordleHelper
 
 ApplicationWindow {
@@ -13,10 +14,30 @@ ApplicationWindow {
     visible: true
     title: qsTr("Wordle Helper")
 
-    property var correctLetters: ["", "", "", "", ""]
-    property var goodLetters: ["", "", "", "", ""]
-
     property string language: ""
+    property var correctLetters: ["", "", "", "", ""]
+
+    ListModel {
+        id: goodRows
+        ListElement { l0: ""; l1: ""; l2: ""; l3: ""; l4: "" }
+    }
+
+
+    // Functions to deal with empty rows for good letters
+    function rowIsEmpty(rowObj) {
+        return rowObj.l0 === "" &&
+               rowObj.l1 === "" &&
+               rowObj.l2 === "" &&
+               rowObj.l3 === "" &&
+               rowObj.l4 === "";
+    }
+
+    function lastRowHasLetter() {
+        if (goodRows.count === 0)
+            return false;
+        var last = goodRows.get(goodRows.count - 1);
+        return !rowIsEmpty(last);
+    }
 
     WordleBackend {
         id: backend
@@ -41,68 +62,136 @@ ApplicationWindow {
                 Layout.preferredWidth: 300
 
                 // --- Correct row ---
-                RowLayout {
-                    spacing: 5
+                ColumnLayout {
+                    spacing: 15
 
                     Label {
                         text: "Correct:"
+                        font.bold: true
                         Layout.preferredWidth: 60
                     }
 
-                    Repeater {
-                        model: 5
-                        delegate: TextField {
-                            Layout.preferredWidth: 40
-                            maximumLength: 1
-                            horizontalAlignment: Text.AlignHCenter
-                            text: correctLetters[index]
+                    RowLayout {
+                        Repeater {
+                            model: 5
+                            delegate: TextField {
+                                id: field
+                                objectName: "correctField" + index
+                                Layout.preferredWidth: 40
+                                maximumLength: 1
+                                horizontalAlignment: Text.AlignHCenter
+                                text: correctLetters[index]
 
-                            onTextChanged: {
+                                onTextChanged: {
 
-                                correctLetters[index] = text
-                                bg1.color = text === "" ? "lightgray" : "#71F757"
-                            }
+                                    correctLetters[index] = text
+                                    bg1.color = text === "" ? "lightgray" : "#71F757"
+                                    // Move to next field automatically
+                                    if (text.length === 1 && index < 4) {
+                                        var next = parent.children[index + 1]
+                                        if (next) next.forceActiveFocus()
+                                    }
+                                }
 
-                            background: Rectangle {
-                                id: bg1
-                                color: "lightgray"
-                                border.color: "gray"
-                                border.width: 1
-                                radius: 2
+                                background: Rectangle {
+                                    id: bg1
+                                    color: "lightgray"
+                                    border.color: "gray"
+                                    border.width: 1
+                                    radius: 2
+                                }
                             }
                         }
+
                     }
                 }
 
-                // --- Good row ---
-                RowLayout {
+                // --- Good row (scalable) ---
+                ColumnLayout {
                     spacing: 5
 
-                    Label {
-                        text: "Good:"
-                        Layout.preferredWidth: 60
+                    // Header row with label + add button
+                    RowLayout {
+                        spacing: 5
+
+                        Label {
+                            text: "Good:"
+                            font.bold: true
+                            Layout.preferredWidth: 60
+                        }
+
+                        Button {
+                            text: "+"
+                            enabled: lastRowHasLetter()
+                            onClicked: {
+                                goodRows.append({
+                                    "l0": "", "l1": "", "l2": "", "l3": "", "l4": ""
+                                })
+                            }
+                        }
                     }
 
+                    // All good-letter rows
                     Repeater {
-                        model: 5
-                        delegate: TextField {
-                            Layout.preferredWidth: 40
-                            maximumLength: 1
-                            horizontalAlignment: Text.AlignHCenter
-                            text: goodLetters[index]
+                        model: goodRows
 
-                            onTextChanged: {
+                        delegate: RowLayout {
+                            spacing: 5
+                            property int rowIndex: index // <-- this is the ListModel row index
+                            property string p0: l0
+                            property string p1: l1
+                            property string p2: l2
+                            property string p3: l3
+                            property string p4: l4
 
-                                goodLetters[index] = text
-                                bg2.color = text === "" ? "lightgray" : "#FFA230"
+                            // 5 textfields per row
+                            Repeater {
+                                model: 5
+
+                                delegate: TextField {
+                                    Layout.preferredWidth: 40
+                                    maximumLength: 1
+                                    horizontalAlignment: Text.AlignHCenter
+
+                                     // bind to correct property
+                                    text: model.index === 0 ? p0 :
+                                          model.index === 1 ? p1 :
+                                          model.index === 2 ? p2 :
+                                          model.index === 3 ? p3 :
+                                          p4
+
+                                    onTextChanged: {
+                                        if (model.index === 0) goodRows.setProperty(rowIndex, "l0", text)
+                                        else if (model.index === 1) goodRows.setProperty(rowIndex, "l1", text)
+                                        else if (model.index === 2) goodRows.setProperty(rowIndex, "l2", text)
+                                        else if (model.index === 3) goodRows.setProperty(rowIndex, "l3", text)
+                                        else goodRows.setProperty(rowIndex, "l4", text)
+
+                                        bg2.color = text === "" ? "lightgray" : "#FFA230"
+
+                                        // Auto remove if row becomes empty AND not the only row
+                                        var row = goodRows.get(rowIndex)
+
+                                        if (rowIsEmpty(row) && goodRows.count > 1) {
+                                            goodRows.remove(rowIndex)
+                                        }
+                                    }
+
+                                    background: Rectangle {
+                                        id: bg2
+                                        color: "lightgray"
+                                        border.color: "gray"
+                                        border.width: 1
+                                        radius: 2
+                                    }
+                                }
                             }
 
-                            background: Rectangle {
-                                id: bg2
-                                color: "lightgray"
-                                border.color: "gray"
-                                border.width: 1
-                                radius: 2
+                            // Remove row button
+                            Button {
+                                text: "-"
+                                visible: goodRows.count > 1
+                                onClicked: goodRows.remove(index)
                             }
                         }
                     }
@@ -120,7 +209,7 @@ ApplicationWindow {
                     TextField {
                         id: absentInput
                         Layout.preferredWidth: 200
-                        placeholderText: "Absent letters (e.g. TLE)"
+                        placeholderText: "Absent letters (e.g. tle)"
                     }
                 }
 
@@ -136,13 +225,26 @@ ApplicationWindow {
                     }
 
                     onClicked: {
+                        // Correct letters
                         var correct = correctLetters.map(function(letter) {
                             return letter === "" ? "-" : letter;
                         }).join("");
 
-                        var good = goodLetters.map(function(letter) {
-                            return letter === "" ? "-" : letter;
-                        }).join("");
+                        // Build ARRAY of good rows
+                        var good = []
+                        for (var r = 0; r < goodRows.count; r++) {
+                            var row = goodRows.get(r);
+
+                            var rowStr =
+                                (row.l0 === "" ? "-" : row.l0) +
+                                (row.l1 === "" ? "-" : row.l1) +
+                                (row.l2 === "" ? "-" : row.l2) +
+                                (row.l3 === "" ? "-" : row.l3) +
+                                (row.l4 === "" ? "-" : row.l4);
+
+                            good.push(rowStr);
+                        }
+
 
                         backend.updateConstraints(correct, good, absentInput.text);
                     }
@@ -152,7 +254,7 @@ ApplicationWindow {
                 GridView {
                     id: wordView
 
-                    Layout.preferredWidth: 350
+                    Layout.fillWidth: true
                     Layout.fillHeight: true
 
                     model: backend.possibleWords
@@ -172,7 +274,6 @@ ApplicationWindow {
                     }
                 }
             }
-
         }
 
         // -----------------
@@ -238,6 +339,4 @@ ApplicationWindow {
             }
         }
     }
-
-
 }

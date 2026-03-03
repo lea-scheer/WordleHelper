@@ -17,6 +17,10 @@ The application supports both **English and French dictionaries**, and allows dy
 
 ---
 
+## Display Preview
+
+<img src="./UI_display.png" width="400">
+
 ## How It Works
 
 The application filters words according to Wordle rules:
@@ -39,6 +43,8 @@ The filtering logic is implemented in C++ inside the `WordFinder` class.
 - GridView for displaying results
 - ComboBox for language selection
 - Communicates with C++ backend via `Q_INVOKABLE`
+- Button to filter possible words
+- Button "+" to allow more than 1 row for misplaced letters
 
 ### 🔹 Backend (C++)
 
@@ -87,7 +93,6 @@ When switching:
 ## Possible Improvements
 
 - Automatic filtering on text change
-- New entry possible to include more good letters misplaced
 - Clear button to clear all inputs
 - Dark mode
 - Word length selection

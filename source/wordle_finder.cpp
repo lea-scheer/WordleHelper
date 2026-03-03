@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
+constexpr unsigned int SIZE_WORD = 5;
+
 WordFinder::WordFinder(QObject* parent) : QObject(parent)
 {
     // Default English word list
@@ -15,13 +17,18 @@ WordList WordFinder::final_list(const Constraints& constraints) const
     WordList result;
 
     std::unordered_map<char,int> required_count;
+
     for(char c : constraints.correct)
     {
         if(c != '-') required_count[c]++;
     }
-    for(char c : constraints.good)
+    for(const auto& row : constraints.goodRows)
     {
-        if(c != '-') required_count[c]++;
+        for (size_t i = 0; i < SIZE_WORD; ++i)
+        {
+            char c = row[i];
+            if(c != '-') required_count[c]++;
+        }
     }
 
     for(const auto& word : word_list)
@@ -56,24 +63,27 @@ WordList WordFinder::final_list(const Constraints& constraints) const
         if(!keep) continue;
 
         // ---- 2) Good letters misplaced
-        for(size_t i = 0; i < constraints.good.size(); ++i)
+        for(const auto& row : constraints.goodRows)
         {
-            char c = constraints.good[i];
-
-            if(c == '-') continue;
-
-            // must NOT be at same position
-            if(word[i] == c)
+            for (size_t i = 0; i < SIZE_WORD; ++i)
             {
-                keep = false;
-                break;
-            }
+                char c = row[i];
 
-            // must exist somewhere in word
-            if(word.find(c) == std::string::npos)
-            {
-                keep = false;
-                break;
+                if(c == '-') continue;
+
+                // must NOT be at same position
+                if(word[i] == c)
+                {
+                    keep = false;
+                    break;
+                }
+
+                // must exist somewhere in word
+                if(word.find(c) == std::string::npos)
+                {
+                    keep = false;
+                    break;
+                }
             }
         }
 
