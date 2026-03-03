@@ -19,7 +19,7 @@ The application supports both **English and French dictionaries**, and allows dy
 
 ## Display Preview
 
-<img src="./UI_display.png" width="400">
+<img src="./images/UI_display.png" width="400">
 
 ## How It Works
 
@@ -94,9 +94,7 @@ When switching:
 
 - Automatic filtering on text change
 - Clear button to clear all inputs
-- Dark mode
 - Word length selection
-- Better styling/theme
 - Use Qt resource system (`.qrc`) instead of absolute file paths
 - Add random word suggestion feature
 
