@@ -46,6 +46,26 @@ ApplicationWindow {
         return !rowIsEmpty(last);
     }
 
+    component ClearButton: Button {
+        text: "Clear"
+        Layout.preferredWidth: 80
+
+        background: Rectangle {
+            radius: 4
+            border.width: 1
+            border.color: "#999"
+            color: control.down ? "#ddd" : "#eee"
+        }
+
+        contentItem: Text {
+            text: control.text
+            color: "black"
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            anchors.centerIn: parent
+        }
+    }
+
     WordleBackend {
         id: backend
     }
@@ -299,6 +319,7 @@ ApplicationWindow {
                     }
                 }
 
+                // --- Warning msg if duplicate in absent letters + timer for 3s display
                 Rectangle {
                     width: msgDuplicate.width
                     height: absentInput.height/2
@@ -319,7 +340,15 @@ ApplicationWindow {
                 // --- Search button ---
                 Button {
                     id: searchButton
-                    text: "Search"
+
+                    contentItem: Text {
+                        text: "Search"
+                        color: "black"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        anchors.centerIn: parent
+                    }
+
                     background: Rectangle {
                         radius: 4
                         border.width: 2
@@ -374,6 +403,9 @@ ApplicationWindow {
 
                     delegate: Text {
                         text: modelData
+                        color: colorTheme.currentIndex === 0
+                               ? "black"
+                               : "white"
                     }
                 }
             }
