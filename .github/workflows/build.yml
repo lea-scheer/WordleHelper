@@ -5,34 +5,27 @@ on: [push]
 jobs:
   build-windows:
     runs-on: windows-latest
-
     steps:
-      # Checkout repository
       - uses: actions/checkout@v4
 
-      # Install Qt 6.4.2
-      - name: Install Qt
+      - name: Install Qt 6.4.2
         uses: jurplel/install-qt-action@v4
         with:
           version: "6.4.2"
-          modules: "qtquick"
-          arch: "win64_msvc"   # must match your CMake generator
+          modules: "qtbase"   # use qtbase instead of qtquick
+          arch: "win64_msvc"
 
-      # Configure CMake
       - name: Configure CMake
         run: cmake -B build -S . -G "Visual Studio 17 2022" -DCMAKE_PREFIX_PATH="C:\Qt\6.4.2\msvc_64"
 
-      # Build Release version
       - name: Build
         run: cmake --build build --config Release
 
-      # Deploy Qt DLLs so the app is portable
       - name: Deploy Qt
         run: |
           set PATH=C:\Qt\6.4.2\msvc_64\bin;%PATH%
-          windeployqt build\Release\appWordleHelper.exe
+          windeployqt --release build\Release\appWordleHelper.exe
 
-      # Upload Windows build artifact
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
