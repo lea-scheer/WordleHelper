@@ -1,24 +1,20 @@
-name: Build Qt App
+name: Build WordleHelper Windows
 
 on: [push]
 
 jobs:
-  build:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-
-    runs-on: ${{ matrix.os }}
+  build-windows:
+    runs-on: windows-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
-          version: "6.2.0"
+          version: "6.4.2"
           modules: "qtquick"
+          arch: "win64_msvc"   # or "win64_mingw" if you prefer
 
       - name: Configure CMake
         run: cmake -B build -S .
@@ -26,8 +22,13 @@ jobs:
       - name: Build
         run: cmake --build build --config Release
 
-      - name: Upload build
+      - name: Deploy Qt
+        run: |
+          set PATH=%PATH%;C:\Qt\6.4.2\msvc_64\bin
+          windeployqt build\Release\appWordleHelper.exe
+
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: WordleHelper-${{ matrix.os }}
-          path: build
+          name: WordleHelper-Windows
+          path: build/Release
