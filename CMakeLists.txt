@@ -17,6 +17,7 @@ qt_add_resources(appWordleHelper "app_wordlehelper"
     FILES
         images/france.png
         images/united-kingdom.png
+        images/cancel.png
         dictionaries/mots.txt
         dictionaries/words_list.txt
 )

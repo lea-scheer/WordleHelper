@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Controls.Basic
 import QtQuick.Controls.Material
 import QtQml.Models
 import WordleHelper
@@ -21,12 +20,16 @@ ApplicationWindow {
     Material.accent: Material.BlueGrey
 
     property string language: ""
-    property var correctLetters: ["", "", "", "", ""]
     property bool seen: false
 
     // Good rows
     ListModel {
         id: goodRows
+        ListElement { l0: ""; l1: ""; l2: ""; l3: ""; l4: "" }
+    }
+    // Correct row
+    ListModel {
+        id: correctRow
         ListElement { l0: ""; l1: ""; l2: ""; l3: ""; l4: "" }
     }
 
@@ -46,24 +49,66 @@ ApplicationWindow {
         return !rowIsEmpty(last);
     }
 
+    // Function to check that at least one letter is present in a row of a model
+    function modelHasLetters(model){
+        for (var i = 0, row; i < model.count; i++)
+        {
+            row = model.get(i);
+            if (!rowIsEmpty(row))
+            {
+                return true
+            }
+        }
+        return false
+    }
+
+    // Function to clear letters from rows when clearButton pressed
+    function clearModel(model) {
+        model.set(0, { l0:"", l1:"", l2:"", l3:"", l4:"" });
+        while (model.count > 1) model.remove(1);
+    }
+
     component ClearButton: Button {
+        id: clearButton
         text: "Clear"
         Layout.preferredWidth: 80
 
         background: Rectangle {
             radius: 4
             border.width: 1
-            border.color: "#999"
-            color: control.down ? "#ddd" : "#eee"
+            border.color: clearButton.down ? "#ddd" : "#eee"
+            color: clearButton.down ? "#ddd" : "#eee"
         }
 
         contentItem: Text {
-            text: control.text
+            text: clearButton.text
             color: "black"
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             anchors.centerIn: parent
+            font.underline: true
         }
+    }
+
+    component DeleteButton: Item {
+        id: deleteButton
+        width: 15
+        height: 15
+
+        Image {
+            id: img
+            anchors.fill: parent
+            source: "qrc:/images/cancel.png"
+            fillMode: Image.PreserveAspectFit
+        }
+
+        MouseArea {
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+                onClicked: deleteButton.clicked()
+            }
+
+        signal clicked()
     }
 
     WordleBackend {
@@ -101,66 +146,71 @@ ApplicationWindow {
                     RowLayout {
 
                         Repeater {
-                            model: 5
+                            model: correctRow
 
-                            delegate: TextField {
-                                id: field
-                                objectName: "correctField" + index
-                                Layout.preferredWidth: 40
-                                maximumLength: 1
-                                horizontalAlignment: Text.AlignHCenter
-                                text: correctLetters[index]
+                            delegate: RowLayout {
 
-                                onTextChanged: {
+                                property string p0: l0
+                                property string p1: l1
+                                property string p2: l2
+                                property string p3: l3
+                                property string p4: l4
 
-                                    correctLetters[index] = text
-                                    bg1.color = text.trim() === "" ? "lightgray" : "#71F757"
-                                    // Move to next field automatically
-                                    if (text.length === 1 && index < 4) {
-                                        var next = parent.children[index + 1]
-                                        if (next) next.forceActiveFocus()
-                                    }
-                                }
+                                Repeater {
+                                    model: 5
 
-                                Keys.onPressed: function(event){
-                                    if (event.key === Qt.Key_Backspace || event.key === Qt.Key_Delete) {
-                                        if (text === "" && index > 0) {
-                                            // Move to previous field
-                                            var prev = parent.children[index - 1]
-                                            if (prev) {
-                                                prev.forceActiveFocus()
-                                                prev.text = ""  // optional: clear previous
+                                    delegate: TextField {
+                                        Layout.preferredWidth: 40
+                                        maximumLength: 1
+                                        horizontalAlignment: Text.AlignHCenter
+
+                                        text: model.index === 0 ? p0 :
+                                              model.index === 1 ? p1 :
+                                              model.index === 2 ? p2 :
+                                              model.index === 3 ? p3 :
+                                              p4
+
+                                        onTextChanged: {
+
+                                            if (model.index === 0) correctRow.setProperty(0, "l0", text)
+                                            else if (model.index === 1) correctRow.setProperty(0, "l1", text)
+                                            else if (model.index === 2) correctRow.setProperty(0, "l2", text)
+                                            else if (model.index === 3) correctRow.setProperty(0, "l3", text)
+                                            else correctRow.setProperty(0, "l4", text)
+
+                                            bg1.color = text.trim() === "" ? "lightgray" : "#71F757"
+
+                                            if (text.length === 1 && index < 4) {
+                                                var next = parent.children[index + 1]
+                                                if (next) next.forceActiveFocus()
                                             }
                                         }
-                                    }
-                                    else if (event.key === Qt.Key_Left && index > 0) {
-                                        // Left arrow: move to previous field
-                                        var previous = parent.children[index - 1]
-                                        if (previous) previous.forceActiveFocus()
-                                    }
-                                    else if (event.key === Qt.Key_Right && index < 4) {
-                                        // Right arrow: move to next field
-                                        var next = parent.children[index + 1]
-                                        if (next) next.forceActiveFocus()
-                                    }
-                                }
 
-                                background: Rectangle {
-                                    id: bg1
-                                    color: "lightgray"
-                                    border.color: "gray"
-                                    border.width: 1
-                                    radius: 2
+                                        background: Rectangle {
+                                            id: bg1
+                                            color: "lightgray"
+                                            border.color: "gray"
+                                            border.width: 1
+                                            radius: 2
+                                        }
+                                    }
                                 }
                             }
                         }
+                    }
 
+                    ClearButton {
+                        id: clearCorrectButton
+                        visible: modelHasLetters(correctRow)
+                        onClicked: {
+                            clearModel(correctRow)
+                        }
                     }
                 }
 
                 // --- Good row (scalable) ---
                 ColumnLayout {
-                    spacing: 5
+                    spacing: 15
 
                     // Header row with label + add button
                     RowLayout {
@@ -280,6 +330,15 @@ ApplicationWindow {
                             }
                         }
                     }
+
+                    ClearButton {
+                        id: clearGoodButton
+                        visible: modelHasLetters(goodRows)
+
+                        onClicked: {
+                            clearModel(goodRows)
+                        }
+                    }
                 }
 
                 // --- Absent row ---
@@ -298,23 +357,23 @@ ApplicationWindow {
                         placeholderText: "Absent letters (e.g. tle)"
 
                         onTextChanged: {
-                            var textLower = text.toLowerCase()
-
-                            var seen = {}
-                            for(var i=0; i<textLower.length; i++)
-                            {
-                                var c = textLower[i]
-                                if(seen[c])
-                                {
-                                    // Remove the last typed character
-                                    text = textLower.slice(0, -1)
-                                    // Display msg and trigger timer to make it disapeear after 3s
-                                    root.seen = true
-                                    timerMsgDuplicate.start()
-                                    return
+                            let seen = new Set();
+                            for (let c of text.toLowerCase()) {
+                                if (seen.has(c)) {
+                                    root.seen = true;
+                                    timerMsgDuplicate.start();
+                                    text = text.slice(0, -1);
+                                    return;
                                 }
-                                seen[c] = true
+                                seen.add(c);
                             }
+                        }
+                    }
+
+                    DeleteButton {
+                        visible: absentInput.text.length > 0
+                        onClicked: {
+                            absentInput.text = ""
                         }
                     }
                 }
@@ -358,9 +417,14 @@ ApplicationWindow {
 
                     onClicked: {
                         // Correct letters
-                        var correct = correctLetters.map(function(letter) {
-                            return letter === "" ? "-" : letter;
-                        }).join("");
+                        var cRow = correctRow.get(0)
+
+                        var correct =
+                            (cRow.l0 === "" ? "-" : cRow.l0) +
+                            (cRow.l1 === "" ? "-" : cRow.l1) +
+                            (cRow.l2 === "" ? "-" : cRow.l2) +
+                            (cRow.l3 === "" ? "-" : cRow.l3) +
+                            (cRow.l4 === "" ? "-" : cRow.l4)
 
                         // Build ARRAY of good rows
                         var good = []
