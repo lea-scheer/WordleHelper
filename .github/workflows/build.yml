@@ -1,32 +1,48 @@
 name: Build WordleHelper Windows
 
-on: [push]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build-windows:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v4
+      # 1️⃣ Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
 
+      # 2️⃣ Install Qt (latest version, includes Qt Quick via qtbase)
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
-          version: "6.4.2"
-          modules: "qtquick"
-          arch: "win64_msvc"   # or "win64_mingw" if you prefer
+          host: windows          # The host OS of the runner
+          target: desktop        # We are building a desktop app
+          arch: win64_msvc2022_64
+          modules: qtbase        # Qt Quick is included in qtbase for Qt 6.x
+          setup-python: true
+          add-tools-to-path: true
+          install-deps: true
 
+      # 3️⃣ Configure CMake (points to the Qt installation)
       - name: Configure CMake
-        run: cmake -B build -S .
+        run: cmake -B build -S . -G "Visual Studio 17 2022" -DCMAKE_PREFIX_PATH="C:/Qt/*/msvc_64"
 
+      # 4️⃣ Build the project
       - name: Build
         run: cmake --build build --config Release
 
+      # 5️⃣ Deploy Qt DLLs using windeployqt
       - name: Deploy Qt
         run: |
-          set PATH=%PATH%;C:\Qt\6.4.2\msvc_64\bin
+          set PATH=C:\Qt\*\msvc_64\bin;%PATH%
+          build\Release\appWordleHelper.exe --release
           windeployqt build\Release\appWordleHelper.exe
 
+      # 6️⃣ Upload the built executable as an artifact
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
