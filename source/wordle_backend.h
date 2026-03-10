@@ -21,7 +21,7 @@ public:
 
     QStringList possibleWords() const;
 
-    Q_INVOKABLE void switchLanguage(const QString& path);
+    Q_INVOKABLE void switchLanguage(const QString& lang);
 
 signals:
     void possibleWordsChanged();

@@ -30,8 +30,19 @@ void WordleBackend::updateConstraints(const QString& correct,
 }
 
 // New Q_INVOKABLE for language switching
-void WordleBackend::switchLanguage(const QString& path)
+void WordleBackend::switchLanguage(const QString& lang)
 {
+    QString path;
+
+    if(lang == "en")
+    {
+        path = ":/dictionaries/words_list.txt";
+    }
+    else
+    {
+        path = ":/dictionaries/mots.txt";
+    }
+
     m_finder.reloadWords(path.toStdString());
 
     // optional: clear the list immediately

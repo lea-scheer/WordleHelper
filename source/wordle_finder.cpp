@@ -9,7 +9,7 @@ constexpr unsigned int SIZE_WORD = 5;
 WordFinder::WordFinder(QObject* parent) : QObject(parent)
 {
     // Default English word list
-    word_list = FileParser().get_words_from("/home/andrea/SoftPerso/Lea/MyQMLexercice/WordleHelper/words_list.txt");
+    word_list = FileParser().get_words_from(":/dictionaries/words_list.txt");
 }
 
 WordList WordFinder::final_list(const Constraints& constraints) const

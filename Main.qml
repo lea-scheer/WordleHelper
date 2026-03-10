@@ -492,10 +492,12 @@ ApplicationWindow {
                     if(currentIndex === 0) //english
                     {
                         root.language = "English"
-                        backend.switchLanguage("/home/andrea/SoftPerso/Lea/MyQMLexercice/WordleHelper/dictionaries/words_list.txt")
+                        //backend.switchLanguage("/home/andrea/SoftPerso/Lea/MyQMLexercice/WordleHelper/dictionaries/words_list.txt")
+                        backend.switchLanguage("en")
                     } else {
                         root.language = "Français"
-                        backend.switchLanguage("/home/andrea/SoftPerso/Lea/MyQMLexercice/WordleHelper/dictionaries/mots.txt")
+                        //backend.switchLanguage("/home/andrea/SoftPerso/Lea/MyQMLexercice/WordleHelper/dictionaries/mots.txt")
+                        backend.switchLanguage("fr")
                     }
                     searchButton.clicked()
                 }

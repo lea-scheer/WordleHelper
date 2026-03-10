@@ -1,25 +1,35 @@
 #include "source/file_parser.h"
 #include <iostream>
-#include <fstream>
+#include <QFile>
+#include <QTextStream>
 #include <algorithm>
 
 constexpr unsigned int SIZE_WORD = 5;
 
 std::vector<std::string> FileParser::get_words_from(const std::string& path) const
 {
-    std::ifstream file(path);
-    std::string line;
-    std::vector<std::string> words;
+    QFile file(QString::fromStdString(path));
 
-    while (std::getline(file, line))
+    WordList words;
+
+
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return words;
+
+    QTextStream in(&file);
+
+    while(!in.atEnd())
     {
+        QString line = in.readLine();
+
         if(line.size() == 5 &&
             std::all_of(line.begin(), line.end(),
-                        [](char c){ return c >= 'a' && c <= 'z'; }))
+                        [](QChar c){ return c >= 'a' && c <= 'z'; }))
         {
-            words.emplace_back(line);
+            words.emplace_back(line.toStdString());
         }
     }
+
     return words;
 }
 
