@@ -342,6 +342,10 @@ ApplicationWindow {
                         Layout.preferredWidth: 200
                         placeholderText: "Absent letters (e.g. tle)"
 
+                        validator: RegularExpressionValidator {
+                            regularExpression: /[a-zA-Z]+/
+                        }
+
                         onTextChanged: {
                             let seen = new Set();
                             for (let c of text.toLowerCase()) {
