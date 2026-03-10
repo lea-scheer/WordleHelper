@@ -6,17 +6,19 @@ import QtQml.Models
 import WordleHelper
 
 ApplicationWindow {
+
     id: root
+
     width: 640
     height: 480
     minimumWidth: rootLayout.implicitWidth + 250
     minimumHeight: rootLayout.implicitHeight + 250
+
     visible: true
+
     title: qsTr("Wordle Helper")
 
-    Material.theme: colorTheme.currentIndex === 0
-                    ? Material.Light
-                    : Material.Dark
+    Material.theme: colorTheme.currentIndex === 0 ? Material.Light : Material.Dark
     Material.accent: Material.BlueGrey
 
     property string language: ""
@@ -27,6 +29,7 @@ ApplicationWindow {
         id: goodRows
         ListElement { l0: ""; l1: ""; l2: ""; l3: ""; l4: "" }
     }
+
     // Correct row
     ListModel {
         id: correctRow
@@ -68,6 +71,43 @@ ApplicationWindow {
         while (model.count > 1) model.remove(1);
     }
 
+    // Function to search (filter)
+    function runSearch() {
+
+        var cRow = correctRow.get(0)
+
+        var correct =
+            (cRow.l0 === "" ? "-" : cRow.l0) +
+            (cRow.l1 === "" ? "-" : cRow.l1) +
+            (cRow.l2 === "" ? "-" : cRow.l2) +
+            (cRow.l3 === "" ? "-" : cRow.l3) +
+            (cRow.l4 === "" ? "-" : cRow.l4)
+
+        var good = []
+
+        for (var r = 0; r < goodRows.count; r++) {
+            var row = goodRows.get(r)
+
+            var rowStr =
+                (row.l0 === "" ? "-" : row.l0) +
+                (row.l1 === "" ? "-" : row.l1) +
+                (row.l2 === "" ? "-" : row.l2) +
+                (row.l3 === "" ? "-" : row.l3) +
+                (row.l4 === "" ? "-" : row.l4)
+
+            good.push(rowStr)
+        }
+
+        backend.updateConstraints(correct, good, absentInput.text)
+    }
+
+    // Handle "Enter" key to search
+    Shortcut {
+        sequences: ["Return", "Enter"]
+        onActivated: root.runSearch()
+    }
+
+    // Inline components
     component ClearButton: Button {
         id: clearButton
         text: "Clear"
@@ -362,34 +402,7 @@ ApplicationWindow {
                         color: searchButton.down ? "#DEBA68" : "#FFD552"
                     }
 
-                    onClicked: {
-                        // Correct letters
-                        var cRow = correctRow.get(0)
-
-                        var correct =
-                            (cRow.l0 === "" ? "-" : cRow.l0) +
-                            (cRow.l1 === "" ? "-" : cRow.l1) +
-                            (cRow.l2 === "" ? "-" : cRow.l2) +
-                            (cRow.l3 === "" ? "-" : cRow.l3) +
-                            (cRow.l4 === "" ? "-" : cRow.l4)
-
-                        // Build ARRAY of good rows
-                        var good = []
-                        for (var r = 0; r < goodRows.count; r++) {
-                            var row = goodRows.get(r);
-
-                            var rowStr =
-                                (row.l0 === "" ? "-" : row.l0) +
-                                (row.l1 === "" ? "-" : row.l1) +
-                                (row.l2 === "" ? "-" : row.l2) +
-                                (row.l3 === "" ? "-" : row.l3) +
-                                (row.l4 === "" ? "-" : row.l4);
-
-                            good.push(rowStr);
-                        }
-
-                        backend.updateConstraints(correct, good, absentInput.text);
-                    }
+                    onClicked: root.runSearch()
                 }
 
                 // --- GridView ---
