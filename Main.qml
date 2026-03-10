@@ -159,10 +159,9 @@ ApplicationWindow {
                                 Repeater {
                                     model: 5
 
-                                    delegate: TextField {
-                                        Layout.preferredWidth: 40
-                                        maximumLength: 1
-                                        horizontalAlignment: Text.AlignHCenter
+                                    delegate: LetterField {
+
+                                        fieldIndex: model.index
 
                                         text: model.index === 0 ? p0 :
                                               model.index === 1 ? p1 :
@@ -170,28 +169,13 @@ ApplicationWindow {
                                               model.index === 3 ? p3 :
                                               p4
 
-                                        onTextChanged: {
+                                        onLetterChanged: function(value){
 
-                                            if (model.index === 0) correctRow.setProperty(0, "l0", text)
-                                            else if (model.index === 1) correctRow.setProperty(0, "l1", text)
-                                            else if (model.index === 2) correctRow.setProperty(0, "l2", text)
-                                            else if (model.index === 3) correctRow.setProperty(0, "l3", text)
-                                            else correctRow.setProperty(0, "l4", text)
-
-                                            bg1.color = text.trim() === "" ? "lightgray" : "#71F757"
-
-                                            if (text.length === 1 && index < 4) {
-                                                var next = parent.children[index + 1]
-                                                if (next) next.forceActiveFocus()
-                                            }
-                                        }
-
-                                        background: Rectangle {
-                                            id: bg1
-                                            color: "lightgray"
-                                            border.color: "gray"
-                                            border.width: 1
-                                            radius: 2
+                                            if (model.index === 0) correctRow.setProperty(0, "l0", value)
+                                            else if (model.index === 1) correctRow.setProperty(0, "l1", value)
+                                            else if (model.index === 2) correctRow.setProperty(0, "l2", value)
+                                            else if (model.index === 3) correctRow.setProperty(0, "l3", value)
+                                            else correctRow.setProperty(0, "l4", value)
                                         }
                                     }
                                 }
@@ -252,10 +236,10 @@ ApplicationWindow {
                             Repeater {
                                 model: 5
 
-                                delegate: TextField {
-                                    Layout.preferredWidth: 40
-                                    maximumLength: 1
-                                    horizontalAlignment: Text.AlignHCenter
+                                delegate: LetterField {
+
+                                    fieldIndex: model.index
+                                    filledColor: "#FFA230"
 
                                      // bind to correct property
                                     text: model.index === 0 ? p0 :
@@ -264,14 +248,12 @@ ApplicationWindow {
                                           model.index === 3 ? p3 :
                                           p4
 
-                                    onTextChanged: {
-                                        if (model.index === 0) goodRows.setProperty(rowIndex, "l0", text)
-                                        else if (model.index === 1) goodRows.setProperty(rowIndex, "l1", text)
-                                        else if (model.index === 2) goodRows.setProperty(rowIndex, "l2", text)
-                                        else if (model.index === 3) goodRows.setProperty(rowIndex, "l3", text)
-                                        else goodRows.setProperty(rowIndex, "l4", text)
-
-                                        bg2.color = text.trim() === "" ? "lightgray" : "#FFA230"
+                                    onLetterChanged: function(value){
+                                        if (model.index === 0) goodRows.setProperty(rowIndex, "l0", value)
+                                        else if (model.index === 1) goodRows.setProperty(rowIndex, "l1", value)
+                                        else if (model.index === 2) goodRows.setProperty(rowIndex, "l2", value)
+                                        else if (model.index === 3) goodRows.setProperty(rowIndex, "l3", value)
+                                        else goodRows.setProperty(rowIndex, "l4", value)
 
                                         // Auto remove if row becomes empty AND not the only row
                                         var row = goodRows.get(rowIndex)
@@ -279,43 +261,6 @@ ApplicationWindow {
                                         if (rowIsEmpty(row) && goodRows.count > 1) {
                                             goodRows.remove(rowIndex)
                                         }
-
-                                        // Move to next field automatically
-                                        if (text.length === 1 && index < 4) {
-                                            var next = parent.children[index + 1]
-                                            if (next) next.forceActiveFocus()
-                                        }
-                                    }
-
-                                    Keys.onPressed: function(event){
-                                        if (event.key === Qt.Key_Backspace || event.key === Qt.Key_Delete) {
-                                            if (text === "" && index > 0) {
-                                                // Move to previous field
-                                                var prev = parent.children[index - 1]
-                                                if (prev) {
-                                                    prev.forceActiveFocus()
-                                                    prev.text = ""  // optional: clear previous
-                                                }
-                                            }
-                                        }
-                                        else if (event.key === Qt.Key_Left && index > 0) {
-                                            // Left arrow: move to previous field
-                                            var previous = parent.children[index - 1]
-                                            if (previous) previous.forceActiveFocus()
-                                        }
-                                        else if (event.key === Qt.Key_Right && index < 4) {
-                                            // Right arrow: move to next field
-                                            var next = parent.children[index + 1]
-                                            if (next) next.forceActiveFocus()
-                                        }
-                                    }
-
-                                    background: Rectangle {
-                                        id: bg2
-                                        color: "lightgray"
-                                        border.color: "gray"
-                                        border.width: 1
-                                        radius: 2
                                     }
                                 }
                             }
@@ -331,6 +276,7 @@ ApplicationWindow {
                         }
                     }
 
+                    // Clear button
                     ClearButton {
                         id: clearGoodButton
                         visible: modelHasLetters(goodRows)
@@ -370,6 +316,7 @@ ApplicationWindow {
                         }
                     }
 
+                    // Delete button
                     DeleteButton {
                         visible: absentInput.text.length > 0
                         onClicked: {
@@ -440,7 +387,6 @@ ApplicationWindow {
 
                             good.push(rowStr);
                         }
-
 
                         backend.updateConstraints(correct, good, absentInput.text);
                     }

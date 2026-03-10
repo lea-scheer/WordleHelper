@@ -27,6 +27,7 @@ qt_add_qml_module(appWordleHelper
     VERSION 1.0
     QML_FILES
         Main.qml
+        qml/components/LetterField.qml
     SOURCES
         source/wordle_backend.h
         source/wordle_backend.cpp
