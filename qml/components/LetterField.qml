@@ -22,6 +22,7 @@ TextField {
     signal letterChanged(string value)
 
     onTextChanged: {
+        text = text.toLowerCase()
         letterChanged(text)
 
         bg.color = text.trim() === "" ? emptyColor : filledColor
