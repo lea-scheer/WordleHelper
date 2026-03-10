@@ -12,6 +12,10 @@ TextField {
     maximumLength: 1
     horizontalAlignment: Text.AlignHCenter
 
+    validator: RegularExpressionValidator {
+        regularExpression: /[a-zA-Z]/
+    }
+
     implicitWidth: 40
     implicitHeight: 40
 
