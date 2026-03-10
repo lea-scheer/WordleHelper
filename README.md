@@ -94,7 +94,6 @@ When switching:
 
 - Automatic filtering on text change
 - Word length selection
-- Use Qt resource system (`.qrc`) instead of absolute file paths
 - Add random word suggestion feature
 
 ---
