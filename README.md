@@ -93,10 +93,10 @@ When switching:
 ## Possible Improvements
 
 - Automatic filtering on text change
-- Clear button to clear all inputs
 - Word length selection
 - Use Qt resource system (`.qrc`) instead of absolute file paths
 - Add random word suggestion feature
+- Press Enter should trigger search button
 
 ---
 
