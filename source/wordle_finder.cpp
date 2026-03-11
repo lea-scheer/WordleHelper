@@ -16,19 +16,49 @@ WordList WordFinder::final_list(const Constraints& constraints) const
 {
     WordList result;
 
-    std::unordered_map<char,int> required_count;
+    std::unordered_map<char,int> correct_count;
+    std::unordered_map<char,int> good_max_count;
 
+    // 1) count correct letters
     for(char c : constraints.correct)
     {
-        if(c != '-') required_count[c]++;
+        if(c != '-')
+        {
+            correct_count[c]++;
+        }
     }
+
+    // 2) max occurrence in good
     for(const auto& row : constraints.goodRows)
     {
-        for (size_t i = 0; i < SIZE_WORD; ++i)
+        std::unordered_map<char,int> row_count;
+
+        for(char c : row)
         {
-            char c = row[i];
-            if(c != '-') required_count[c]++;
+            if(c != '-')
+            {
+                row_count[c]++;
+            }
         }
+
+        for(auto [c,count] : row_count)
+        {
+            good_max_count[c] = std::max(good_max_count[c], count);
+        }
+    }
+
+    // 3) result
+    std::unordered_map<char,int> required_count;
+
+    for(auto [c,count] : correct_count)
+    {
+        required_count[c] = count + good_max_count[c];
+    }
+
+    for(auto [c,count] : good_max_count)
+    {
+        if(required_count.find(c) == required_count.end())
+            required_count[c] = count;
     }
 
     for(const auto& word : word_list)
